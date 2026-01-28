@@ -3,6 +3,7 @@ using Finance.Api.Data;
 using Finance.Api.DTOs.Transaction;
 using Finance.Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Personal.Finance.Api.DTOs.Common;
 using Personal.Finance.Api.Exceptions;
 using System.Transactions;
 
@@ -75,6 +76,40 @@ namespace Finance.Api.Services.Transactions
             await _context.SaveChangesAsync();
 
             return transaction;
+        }
+
+        public async Task<PagedResult<TransactionResponse>> GetPagedAsyc(Guid userId, int page, int pageSize)
+        {
+            if (page <= 0) page = 1;
+            if (pageSize <= 0 || pageSize > 100) pageSize = 20;
+
+            var query = _context.Transactions
+                .Where(t => t.UserId == userId);
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(t => t.TransactionDate)
+                .Skip((page - 1)  * pageSize)
+                .Take(pageSize)
+                .Select(t => new TransactionResponse
+                {
+                    Id = t.Id,
+                    AccountId = t.AccountId,
+                    CategoryId = t.CategoryId,
+                    Amount = t.Amount,
+                    Type = t.Type,
+                    TransactionDate = t.TransactionDate,
+                    Note = t.Note
+                }).ToListAsync();
+
+            return new PagedResult<TransactionResponse> 
+            {
+                Items = items,
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount
+            };
         }
 
         public async Task<List<TransactionResponse>> GetAllTransactionAsync(Guid userId)

@@ -28,7 +28,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _accountService.CreateAccountAsync(UserId, request);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _accountService.GetAllAccountAsync(UserId);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
     }
 }

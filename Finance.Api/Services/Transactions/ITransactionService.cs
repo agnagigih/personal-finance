@@ -1,5 +1,6 @@
 ﻿using Finance.Api.DTOs.Transaction;
 using Finance.Api.Models;
+using Personal.Finance.Api.DTOs.Common;
 
 namespace Finance.Api.Services.Transactions
 {
@@ -14,6 +15,8 @@ namespace Finance.Api.Services.Transactions
             string note,
             DateTime transactionDate);
 
+
+        Task<PagedResult<TransactionResponse>> GetPagedAsyc(Guid userId, int page, int pageSize);
 
         Task<List<TransactionResponse>> GetAllTransactionAsync(Guid userId);
 

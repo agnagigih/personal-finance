@@ -25,7 +25,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _categoryService.CreateCategoryAsync(UserId, request);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _categoryService.GetAllCategoryAsync(UserId);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
     }
 }

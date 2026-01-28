@@ -27,7 +27,7 @@ namespace Finance.Api.Controllers
         {
             await _authService.RegisterAsync(request);
 
-            return Ok(ApiResponse<object>.Ok(new { message = "User has succesfully created"}));
+            return Ok(ApiResponse<object>.SuccessResponse(new { message = "User has succesfully created"}));
         }
 
         [HttpPost("login")]
@@ -35,7 +35,7 @@ namespace Finance.Api.Controllers
         {
             var token = await _authService.LoginAsync(request);
 
-            return Ok(ApiResponse<object>.Ok(new { token }));         
+            return Ok(ApiResponse<object>.SuccessResponse(new { token }));         
         }
     }
 }

@@ -6,7 +6,7 @@
         public T? Data { get; set; }
         public ApiError? Error { get; set; }
 
-        public static ApiResponse<T> Ok(T? data) => new()
+        public static ApiResponse<T> SuccessResponse(T? data) => new()
         {
             Success = true,
             Data = data

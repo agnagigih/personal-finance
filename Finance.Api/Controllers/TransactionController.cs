@@ -34,7 +34,7 @@ namespace Finance.Api.Controllers
                 transactionDate: request.TransactionDate
                 );
 
-            return Ok(ApiResponse<object>.Ok(new
+            return Ok(ApiResponse<object>.SuccessResponse(new
             {
                 transaction.Id,
                 transaction.Account,
@@ -44,11 +44,13 @@ namespace Finance.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var result = await _transactionService.GetAllTransactionAsync(UserId);
+            //var result = await _transactionService.GetAllTransactionAsync(UserId);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            var result = await _transactionService.GetPagedAsyc(UserId, page, pageSize);
+
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
 
         [HttpPut("{id}")]
@@ -56,7 +58,7 @@ namespace Finance.Api.Controllers
         {
             await _transactionService.UpdateAsync(UserId, id, request);
 
-            return Ok(ApiResponse<object>.Ok(new { message = "Data Transaction has been updated." }));
+            return Ok(ApiResponse<object>.SuccessResponse(new { message = "Data Transaction has been updated." }));
         }
 
         [HttpDelete("{id}")]
@@ -64,7 +66,7 @@ namespace Finance.Api.Controllers
         {
             await _transactionService.DeleteAsync(UserId, id);
                 
-            return Ok(ApiResponse<object>.Ok(new { message = "Data Transaction has been deleted." }));
+            return Ok(ApiResponse<object>.SuccessResponse(new { message = "Data Transaction has been deleted." }));
 
         }
 
@@ -73,7 +75,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _transactionService.GetByAccountAsync(UserId, accountId);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
     }
 }

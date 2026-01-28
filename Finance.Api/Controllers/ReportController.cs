@@ -24,7 +24,7 @@ namespace Finance.Api.Controllers
         {
             var result = await _reportService.GetMonthlyReportAsync(UserId, year, month);
 
-            return Ok(ApiResponse<object>.Ok(result));
+            return Ok(ApiResponse<object>.SuccessResponse(result));
         }
     }
 }
