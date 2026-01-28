@@ -5,7 +5,10 @@ using Finance.Api.Services.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.EntityFrameworkCore;
+using Personal.Finance.Api.DTOs.Auth;
 using Personal.Finance.Api.Exceptions;
+using Personal.Finance.Api.Models;
+using System.Security.Cryptography;
 
 namespace Finance.Api.Services.Auth
 {
@@ -44,7 +47,7 @@ namespace Finance.Api.Services.Auth
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
         }
-        public async Task<string> LoginAsync(DTOs.Auth.LoginRequest request)
+        public async Task<AuthResponse> LoginAsync(DTOs.Auth.LoginRequest request)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
 
@@ -64,8 +67,85 @@ namespace Finance.Api.Services.Auth
                 throw new AuthenticationException("Invalid credentials");
             }
 
-            var token = _jwt.GenerateToken(user);
-            return token;
+            var accessToken = _jwt.GenerateToken(user);
+            var refreshToken = GenerateRefreshToken();
+
+            var refreshEntity = new RefreshToken
+            {
+                Id = Guid.NewGuid(),
+                UserId = user.Id,
+                Token = accessToken,
+                ExpiredAt = DateTime.UtcNow.AddDays(7),
+                CreatedAt = DateTime.UtcNow,
+                IsRevoked = false,
+            };
+
+            _context.RefreshTokens.Add(refreshEntity);
+            await _context.SaveChangesAsync();
+
+            return new AuthResponse
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+            };
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var randomBytes = new byte[64];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomBytes);
+            return Convert.ToBase64String(randomBytes);
+        }
+
+        public async Task<AuthResponse> RefreshTokenAsync(string refreshToken)
+        {
+            var token = await _context.RefreshTokens
+                .Include(x => x.User)
+                .FirstOrDefaultAsync(x => x.Token == refreshToken);
+
+            if (token == null)
+                throw new UnauthorizedActionException("Invalid refresh token");
+
+            if (token.IsRevoked)
+                throw new UnauthorizedActionException("Invalid token revoked");
+            if (token.ExpiredAt < DateTime.UtcNow)
+                throw new UnauthorizedActionException("Invalid token expired");
+
+            token.IsRevoked = true;
+
+            var newRefreshToken = new RefreshToken
+            {
+                Id = Guid.NewGuid(),
+                UserId = token.UserId,
+                Token = Guid.NewGuid().ToString("N"),
+                ExpiredAt = DateTime.UtcNow.AddDays(7),
+                CreatedAt = DateTime.UtcNow,
+            };
+
+            _context.RefreshTokens.Add(newRefreshToken);
+
+
+            var accessToken = _jwt.GenerateToken(token.User);
+
+            await _context.SaveChangesAsync();
+
+            return new AuthResponse 
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+            };
+        }
+        public async Task LogoutAsync(string refreshToken)
+        {
+            var token = await _context.RefreshTokens
+                .FirstOrDefaultAsync(t  => t.Token == refreshToken);
+
+            if (token == null)
+                return;
+
+            token.IsRevoked = true;
+            await _context.SaveChangesAsync();
         }
     }
 }

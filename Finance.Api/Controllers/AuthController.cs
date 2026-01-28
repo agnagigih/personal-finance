@@ -3,10 +3,12 @@ using Finance.Api.DTOs.Auth;
 using Finance.Api.Models;
 using Finance.Api.Services.Auth;
 using Finance.Api.Services.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Personal.Finance.Api.DTOs.Auth;
 using Personal.Finance.Api.Responses;
 
 namespace Finance.Api.Controllers
@@ -33,9 +35,26 @@ namespace Finance.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(DTOs.Auth.LoginRequest request)
         {
-            var token = await _authService.LoginAsync(request);
+            AuthResponse result = await _authService.LoginAsync(request);
 
-            return Ok(ApiResponse<object>.SuccessResponse(new { token }));         
+            return Ok(ApiResponse<object>.SuccessResponse(result));         
+        }
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Refresh(RefreshRequest request) 
+        {
+            var result = await _authService.RefreshTokenAsync(request.RefreshToken);
+
+            return Ok(ApiResponse<object>.SuccessResponse(result));
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout(LogoutRequest request)
+        {
+            await _authService.LogoutAsync(request.RefreshToken);
+
+            return Ok(ApiResponse<object>.SuccessResponse(new { message = "Logged out successfully" }));
         }
     }
 }

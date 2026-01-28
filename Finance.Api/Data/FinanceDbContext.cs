@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Finance.Api.Models;
+using Personal.Finance.Api.Models;
 
 namespace Finance.Api.Data
 {
@@ -11,6 +12,7 @@ namespace Finance.Api.Data
         public DbSet<Account> Accounts => Set<Account>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Transaction> Transactions => Set<Transaction>();
+        public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
