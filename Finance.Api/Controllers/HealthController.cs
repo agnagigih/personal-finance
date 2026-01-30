@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Finance.Api.Controllers
+namespace Personal.Finance.Api.Controllers
 {
     public class HealthController : ControllerBase
     {

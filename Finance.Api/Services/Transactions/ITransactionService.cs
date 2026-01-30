@@ -1,8 +1,8 @@
-﻿using Finance.Api.DTOs.Transaction;
-using Finance.Api.Models;
+﻿using Personal.Finance.Api.DTOs.Transaction;
+using Personal.Finance.Api.Models;
 using Personal.Finance.Api.DTOs.Common;
 
-namespace Finance.Api.Services.Transactions
+namespace Personal.Finance.Api.Services.Transactions
 {
     public interface ITransactionService
     {

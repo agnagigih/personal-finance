@@ -1,7 +1,6 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Report;
+﻿using Personal.Finance.Api.DTOs.Report;
 
-namespace Finance.Api.Services.Report
+namespace Personal.Finance.Api.Services.Report
 {
     public interface IReportService
     {

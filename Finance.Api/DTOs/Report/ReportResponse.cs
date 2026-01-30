@@ -1,4 +1,4 @@
-﻿namespace Finance.Api.DTOs.Report
+﻿namespace Personal.Finance.Api.DTOs.Report
 {
     public class IncomeExpenseByCategory
     {

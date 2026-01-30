@@ -1,13 +1,13 @@
 ﻿using Azure.Core;
-using Finance.Api.Data;
-using Finance.Api.DTOs.Transaction;
-using Finance.Api.Models;
+using Personal.Finance.Api.Data;
+using Personal.Finance.Api.DTOs.Transaction;
+using Personal.Finance.Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Personal.Finance.Api.DTOs.Common;
 using Personal.Finance.Api.Exceptions;
 using System.Transactions;
 
-namespace Finance.Api.Services.Transactions
+namespace Personal.Finance.Api.Services.Transactions
 {
     public class TransactionService : ITransactionService
     {

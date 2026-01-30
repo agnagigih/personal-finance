@@ -1,13 +1,10 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Category;
-using Finance.Api.Models;
-using Finance.Api.Services.Category;
+﻿using Personal.Finance.Api.DTOs.Category;
+using Personal.Finance.Api.Services.Category;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Personal.Finance.Api.Responses;
 
-namespace Finance.Api.Controllers
+namespace Personal.Finance.Api.Controllers
 {
     [Authorize]
     [ApiController]

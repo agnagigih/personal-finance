@@ -1,10 +1,8 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Account;
-using Finance.Api.DTOs.Category;
-using Finance.Api.Models;
+﻿using Personal.Finance.Api.Data;
+using Personal.Finance.Api.DTOs.Account;
 using Microsoft.EntityFrameworkCore;
 
-namespace Finance.Api.Services.Account
+namespace Personal.Finance.Api.Services.Account
 {
     public class AccountService : IAccountService
     {

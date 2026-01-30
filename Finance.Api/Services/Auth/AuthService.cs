@@ -1,16 +1,13 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Auth;
-using Finance.Api.Models;
-using Finance.Api.Services.Security;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Personal.Finance.Api.Data;
 using Personal.Finance.Api.DTOs.Auth;
-using Personal.Finance.Api.Exceptions;
 using Personal.Finance.Api.Models;
+using Personal.Finance.Api.Services.Security;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Personal.Finance.Api.Exceptions;
 using System.Security.Cryptography;
 
-namespace Finance.Api.Services.Auth
+namespace Personal.Finance.Api.Services.Auth
 {
     public class AuthService : IAuthService
     {
@@ -74,9 +71,9 @@ namespace Finance.Api.Services.Auth
             {
                 Id = Guid.NewGuid(),
                 UserId = user.Id,
-                Token = accessToken,
-                ExpiredAt = DateTime.UtcNow.AddDays(7),
-                CreatedAt = DateTime.UtcNow,
+                Token = refreshToken,
+                ExpiredDate = DateTime.UtcNow.AddDays(7),
+                CreatedDate = DateTime.UtcNow,
                 IsRevoked = false,
             };
 
@@ -109,7 +106,7 @@ namespace Finance.Api.Services.Auth
 
             if (token.IsRevoked)
                 throw new UnauthorizedActionException("Invalid token revoked");
-            if (token.ExpiredAt < DateTime.UtcNow)
+            if (token.ExpiredDate < DateTime.UtcNow)
                 throw new UnauthorizedActionException("Invalid token expired");
 
             token.IsRevoked = true;
@@ -119,8 +116,8 @@ namespace Finance.Api.Services.Auth
                 Id = Guid.NewGuid(),
                 UserId = token.UserId,
                 Token = Guid.NewGuid().ToString("N"),
-                ExpiredAt = DateTime.UtcNow.AddDays(7),
-                CreatedAt = DateTime.UtcNow,
+                ExpiredDate = DateTime.UtcNow.AddDays(7),
+                CreatedDate = DateTime.UtcNow,
             };
 
             _context.RefreshTokens.Add(newRefreshToken);

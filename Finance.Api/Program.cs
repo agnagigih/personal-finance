@@ -1,10 +1,10 @@
-using Finance.Api.Data;
-using Finance.Api.Services.Account;
-using Finance.Api.Services.Auth;
-using Finance.Api.Services.Category;
-using Finance.Api.Services.Report;
-using Finance.Api.Services.Security;
-using Finance.Api.Services.Transactions;
+using Personal.Finance.Api.Data;
+using Personal.Finance.Api.Services.Account;
+using Personal.Finance.Api.Services.Auth;
+using Personal.Finance.Api.Services.Category;
+using Personal.Finance.Api.Services.Report;
+using Personal.Finance.Api.Services.Security;
+using Personal.Finance.Api.Services.Transactions;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Personal.Finance.Api.Middlewares;
 using Personal.Finance.Api.Responses;
 using System.Text;
@@ -97,7 +96,8 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtSettings["Issuer"],
             ValidAudience = jwtSettings["Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(key)
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ClockSkew = TimeSpan.Zero
         };
     });
 

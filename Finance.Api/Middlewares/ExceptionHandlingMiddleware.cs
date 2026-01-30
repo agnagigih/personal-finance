@@ -24,7 +24,7 @@ namespace Personal.Finance.Api.Middlewares
                 var response = ApiResponse<object>.Fail(ex.ErrorCode, ex.Message);
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response));
             }
-            catch (Exception)  
+            catch (Exception ex)  
             {
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
@@ -35,6 +35,14 @@ namespace Personal.Finance.Api.Middlewares
                     );
 
                 await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+
+                //var message = ex.InnerException?.Message ?? ex.Message;
+
+                //context.Response.StatusCode = 500;
+                //await context.Response.WriteAsJsonAsync(new
+                //{
+                //    error = message
+                //});
             }
         }
     }

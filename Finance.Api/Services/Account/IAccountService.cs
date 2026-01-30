@@ -1,7 +1,6 @@
-﻿using Finance.Api.DTOs.Account;
-using Finance.Api.DTOs.Category;
+﻿using Personal.Finance.Api.DTOs.Account;
 
-namespace Finance.Api.Services.Account
+namespace Personal.Finance.Api.Services.Account
 {
     public interface IAccountService
     {

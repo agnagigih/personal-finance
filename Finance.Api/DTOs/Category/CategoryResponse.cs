@@ -1,6 +1,6 @@
-﻿using Finance.Api.Models;
+﻿using Personal.Finance.Api.Models;
 
-namespace Finance.Api.DTOs.Category
+namespace Personal.Finance.Api.DTOs.Category
 {
     public class CategoryResponse
     {

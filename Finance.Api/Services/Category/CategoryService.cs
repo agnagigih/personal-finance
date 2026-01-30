@@ -1,9 +1,8 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Category;
-using Finance.Api.Models;
+﻿using Personal.Finance.Api.Data;
+using Personal.Finance.Api.DTOs.Category;
 using Microsoft.EntityFrameworkCore;
 
-namespace Finance.Api.Services.Category
+namespace Personal.Finance.Api.Services.Category
 {
     public class CategoryService : ICategoryService
     {

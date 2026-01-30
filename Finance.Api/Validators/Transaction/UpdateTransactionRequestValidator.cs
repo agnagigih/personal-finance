@@ -1,4 +1,4 @@
-﻿using Finance.Api.DTOs.Transaction;
+﻿using Personal.Finance.Api.DTOs.Transaction;
 using FluentValidation;
 
 namespace Personal.Finance.Api.Validators.Transaction

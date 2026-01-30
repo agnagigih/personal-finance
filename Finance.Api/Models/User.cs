@@ -1,4 +1,4 @@
-﻿namespace Finance.Api.Models;
+﻿namespace Personal.Finance.Api.Models;
 
 public class User
 {

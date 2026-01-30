@@ -1,17 +1,11 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Auth;
-using Finance.Api.Models;
-using Finance.Api.Services.Auth;
-using Finance.Api.Services.Security;
+﻿using Personal.Finance.Api.DTOs.Auth;
+using Personal.Finance.Api.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Personal.Finance.Api.DTOs.Auth;
 using Personal.Finance.Api.Responses;
 
-namespace Finance.Api.Controllers
+namespace Personal.Finance.Api.Controllers
 {
     [ApiController]
     [Route("api/auth")]

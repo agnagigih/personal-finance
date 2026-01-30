@@ -1,4 +1,4 @@
-﻿namespace Finance.Api.DTOs.Auth
+﻿namespace Personal.Finance.Api.DTOs.Auth
 {
     public class LoginRequest
     {

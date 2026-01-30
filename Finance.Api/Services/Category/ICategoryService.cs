@@ -1,6 +1,6 @@
-﻿using Finance.Api.DTOs.Category;
+﻿using Personal.Finance.Api.DTOs.Category;
 
-namespace Finance.Api.Services.Category
+namespace Personal.Finance.Api.Services.Category
 {
     public interface ICategoryService
     {

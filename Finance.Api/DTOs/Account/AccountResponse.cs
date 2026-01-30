@@ -1,6 +1,6 @@
-﻿using Finance.Api.Models;
+﻿using Personal.Finance.Api.Models;
 
-namespace Finance.Api.DTOs.Account
+namespace Personal.Finance.Api.DTOs.Account
 {
     public class AccountResponse
     {

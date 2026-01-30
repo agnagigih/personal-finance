@@ -1,6 +1,6 @@
-﻿using Finance.Api.Models;
+﻿using Personal.Finance.Api.Models;
 
-namespace Finance.Api.DTOs.Transaction
+namespace Personal.Finance.Api.DTOs.Transaction
 {
     public class UpdateTransactionRequest
     {

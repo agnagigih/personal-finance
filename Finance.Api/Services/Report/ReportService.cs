@@ -1,9 +1,8 @@
-﻿using Finance.Api.Data;
-using Finance.Api.DTOs.Report;
-using Finance.Api.Models;
+﻿using Personal.Finance.Api.Data;
+using Personal.Finance.Api.DTOs.Report;
 using Microsoft.EntityFrameworkCore;
 
-namespace Finance.Api.Services.Report
+namespace Personal.Finance.Api.Services.Report
 {
     public class ReportService : IReportService
     {

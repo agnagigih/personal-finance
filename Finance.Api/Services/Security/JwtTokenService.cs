@@ -1,10 +1,10 @@
-﻿using Finance.Api.Models;
+﻿using Personal.Finance.Api.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Finance.Api.Services.Security
+namespace Personal.Finance.Api.Services.Security
 {
     public class JwtTokenService
     {
