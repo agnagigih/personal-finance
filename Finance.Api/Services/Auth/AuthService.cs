@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Personal.Finance.Api.Exceptions;
 using System.Security.Cryptography;
+using Personal.Finance.Api.Middlewares;
 
 namespace Personal.Finance.Api.Services.Auth
 {
@@ -20,7 +21,6 @@ namespace Personal.Finance.Api.Services.Auth
             _context = context;
             _jwt = jwt;
             _passwordHaser = new PasswordHasher<User>();
-
         }
 
         public async Task RegisterAsync(RegistrationRequest request)
@@ -50,6 +50,7 @@ namespace Personal.Finance.Api.Services.Auth
 
             if (user == null)
             {
+                _logger.LogWarning()
                 throw new AuthenticationException("Invalid credentials");
             }
 

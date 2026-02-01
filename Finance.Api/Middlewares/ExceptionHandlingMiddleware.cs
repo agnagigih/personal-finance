@@ -7,8 +7,13 @@ namespace Personal.Finance.Api.Middlewares
     public class ExceptionHandlingMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
-        public ExceptionHandlingMiddleware(RequestDelegate next) { _next = next; }
+        public ExceptionHandlingMiddleware(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger) 
+        { 
+            _next = next; 
+            _logger = logger;
+        }
 
         public async Task InvokeAsync(HttpContext context) 
         {
@@ -16,8 +21,15 @@ namespace Personal.Finance.Api.Middlewares
             {
                 await _next(context);
             }
-            catch (AppException ex)
+            catch (AppException ex) 
             {
+                _logger.LogWarning(
+                    ex,
+                    "Handled application exxception. Code: {Code}, Path: {Path}",
+                    ex.ErrorCode,
+                    context.Request.Path
+                    );
+
                 context.Response.StatusCode = ex.StatusCode;
                 context.Response.ContentType = "application/json";
 
@@ -26,6 +38,12 @@ namespace Personal.Finance.Api.Middlewares
             }
             catch (Exception ex)  
             {
+                _logger.LogError(
+                    ex,
+                    "Unhandled exception. Path: {Path}",
+                    context.Request.Path
+                    );
+
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
 
