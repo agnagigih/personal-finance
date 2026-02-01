@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Personal.Finance.Api.Exceptions;
 using System.Security.Cryptography;
 using Personal.Finance.Api.Middlewares;
+using Microsoft.Extensions.Logging;
 
 namespace Personal.Finance.Api.Services.Auth
 {
@@ -15,6 +16,7 @@ namespace Personal.Finance.Api.Services.Auth
         private readonly FinanceDbContext _context;
         private readonly JwtTokenService _jwt;
         private readonly PasswordHasher<User> _passwordHaser;
+        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
 
         public AuthService(FinanceDbContext context, JwtTokenService jwt)
         {
@@ -50,7 +52,6 @@ namespace Personal.Finance.Api.Services.Auth
 
             if (user == null)
             {
-                _logger.LogWarning()
                 throw new AuthenticationException("Invalid credentials");
             }
 
