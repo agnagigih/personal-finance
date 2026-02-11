@@ -23,12 +23,12 @@ namespace Personal.Finance.Api.Middlewares
             }
             catch (AppException ex) 
             {
-                _logger.LogWarning(
-                    ex,
-                    "Handled application exxception. Code: {Code}, Path: {Path}",
-                    ex.ErrorCode,
-                    context.Request.Path
-                    );
+                //_logger.LogWarning(
+                //    ex,
+                //    "Handled application exxception. Code: {Code}, Path: {Path}",
+                //    ex.ErrorCode,
+                //    context.Request.Path
+                //    );
 
                 context.Response.StatusCode = ex.StatusCode;
                 context.Response.ContentType = "application/json";

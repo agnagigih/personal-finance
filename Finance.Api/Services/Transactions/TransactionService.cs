@@ -84,6 +84,8 @@ namespace Personal.Finance.Api.Services.Transactions
             if (pageSize <= 0 || pageSize > 100) pageSize = 20;
 
             var query = _context.Transactions
+                .Include(t => t.Category)
+                .Include(t => t.Account)
                 .Where(t => t.UserId == userId);
 
             var totalCount = await query.CountAsync();
@@ -96,7 +98,9 @@ namespace Personal.Finance.Api.Services.Transactions
                 {
                     Id = t.Id,
                     AccountId = t.AccountId,
+                    AccountName = t.Account.Name,
                     CategoryId = t.CategoryId,
+                    CategoryName = t.Category.Name,
                     Amount = t.Amount,
                     Type = t.Type,
                     TransactionDate = t.TransactionDate,
@@ -146,7 +150,7 @@ namespace Personal.Finance.Api.Services.Transactions
                     Id = t.Id,
                     AccountId = t.AccountId,
                     CategoryId = t.CategoryId,
-                    Category = t.Category.Name,
+                    CategoryName = t.Category.Name,
                     Amount = t.Amount,
                     Type = t.Type,
                     TypeName = t.Type.ToString(),

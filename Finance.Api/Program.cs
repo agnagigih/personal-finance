@@ -24,24 +24,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Validation with Fluent Validation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.InvalidModelStateResponseFactory = context =>
+builder.Services
+    .AddControllers()
+    .ConfigureApiBehaviorOptions(options => 
     {
-        var errors = context.ModelState
-            .Where(x => x.Value!.Errors.Count > 0)
-            .ToDictionary(
-                x => x.Key,
-                x => x.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
-            );
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(x => x.Value!.Errors.Count > 0)
+                .ToDictionary(
+                    x => x.Key,
+                    x => x.Value!.Errors.Select(e => e.ErrorMessage).ToArray()
+                );
 
-        return new BadRequestObjectResult(ApiResponse<object>.Fail("VALIDATION_ERROR", "Validation failed"));
-    };
-});
-
-
-builder.Services.AddControllers();
+            return new BadRequestObjectResult(ApiResponse<object>.Fail("VALIDATION_ERROR", "Validation failed", errors));
+        };
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -111,6 +109,19 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+            //.AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -121,6 +132,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontend");
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 

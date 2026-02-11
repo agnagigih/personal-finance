@@ -1,8 +1,13 @@
-﻿namespace Personal.Finance.Api.DTOs.Auth
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Personal.Finance.Api.DTOs.Auth
 {
     public class LoginRequest
     {
-        public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = string.Empty;
+        [Required]
+        public string Password { get; set; } = string.Empty;
     }
 }

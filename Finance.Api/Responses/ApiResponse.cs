@@ -12,13 +12,14 @@
             Data = data
         };
 
-        public static ApiResponse<T> Fail(string code, string message) => new()
+        public static ApiResponse<T> Fail(string code, string message, object? details = null) => new()
         {
             Success = false,
             Error = new ApiError
             {
                 Code = code,
-                Message = message
+                Message = message,
+                Details = details,
             }
         };
     }
