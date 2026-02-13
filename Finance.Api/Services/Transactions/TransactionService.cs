@@ -103,6 +103,7 @@ namespace Personal.Finance.Api.Services.Transactions
                     CategoryName = t.Category.Name,
                     Amount = t.Amount,
                     Type = t.Type,
+                    TypeName = t.Type.ToString(),
                     TransactionDate = t.TransactionDate,
                     Note = t.Note
                 }).ToListAsync();

@@ -31,12 +31,17 @@ namespace Personal.Finance.Api.Controllers
                 transactionDate: request.TransactionDate
                 );
 
-            return Ok(ApiResponse<object>.SuccessResponse(new
+            return Ok(ApiResponse<object>.SuccessResponse(new TransactionResponse
             {
-                transaction.Id,
-                transaction.Account,
-                transaction.TransactionDate,
-                transaction.CreatedAt
+                Id = transaction.Id,
+                AccountId = transaction.AccountId,
+                AccountName = transaction.Account.Name,
+                CategoryId = transaction.CategoryId,
+                CategoryName = transaction.Category.Name,
+                Amount = transaction.Amount,
+                Type = transaction.Type,
+                TypeName = transaction.Type.ToString(),
+                TransactionDate = transaction.TransactionDate,
             }));
         }
 
