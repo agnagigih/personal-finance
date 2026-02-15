@@ -117,23 +117,23 @@ namespace Personal.Finance.Api.Services.Transactions
             };
         }
 
-        public async Task<List<TransactionResponse>> GetAllTransactionAsync(Guid userId)
-        {
-            var transactions = await _context.Transactions
-                .Where(t => t.UserId == userId)
-                .OrderByDescending(t => t.TransactionDate)
-                .Select(t => new TransactionResponse
-                {
-                    Id = t.Id,
-                    AccountId = t.AccountId,
-                    CategoryId = t.CategoryId,
-                    Amount = t.Amount,
-                    Type = t.Type,
-                    TransactionDate = t.TransactionDate,
-                    Note = t.Note
-                }).ToListAsync();
-            return transactions;
-        }
+        //public async Task<List<TransactionResponse>> GetAllTransactionAsync(Guid userId)
+        //{
+        //    var transactions = await _context.Transactions
+        //        .Where(t => t.UserId == userId)
+        //        .OrderByDescending(t => t.TransactionDate)
+        //        .Select(t => new TransactionResponse
+        //        {
+        //            Id = t.Id,
+        //            AccountId = t.AccountId,
+        //            CategoryId = t.CategoryId,
+        //            Amount = t.Amount,
+        //            Type = t.Type,
+        //            TransactionDate = t.TransactionDate,
+        //            Note = t.Note
+        //        }).ToListAsync();
+        //    return transactions;
+        //}
 
         public async Task<List<TransactionResponse>> GetByAccountAsync(Guid userId, Guid accountId)
         {
@@ -158,6 +158,28 @@ namespace Personal.Finance.Api.Services.Transactions
                     Note = t.Note,
                     TransactionDate = t.TransactionDate,
                 }).ToListAsync();
+        }
+
+        public async Task<TransactionResponse?> GetTransactionById(Guid userId, Guid transactionId)
+        {
+            var transaction = await _context.Transactions
+                .Include(t => t.Account)
+                .Where(t => t.Id == transactionId && t.UserId == userId)
+                .Select(t => new TransactionResponse
+                {
+                    Id = t.Id,
+                    AccountId = t.AccountId,
+                    AccountName = t.Account.Name,
+                    CategoryId = t.CategoryId,
+                    CategoryName = t.Category.Name,
+                    Amount = t.Amount,
+                    Type = t.Type,
+                    TypeName = t.Type.ToString(),
+                    Note = t.Note,
+                    TransactionDate = t.TransactionDate,
+                })
+                .FirstOrDefaultAsync();
+            return transaction;
         }
 
         public async Task UpdateAsync(

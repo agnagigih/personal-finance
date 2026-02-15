@@ -55,6 +55,12 @@ namespace Personal.Finance.Api.Controllers
             return Ok(ApiResponse<object>.SuccessResponse(result));
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTransactionById(Guid id) {
+            var result = await _transactionService.GetTransactionById(UserId, id);
+            return Ok(ApiResponse<object>.SuccessResponse(result));
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateTransactionRequest request)
         {
